@@ -1,0 +1,2 @@
+Custom Element是webcomponent的核心，他允许用户自定HTML元素
+#document.registerElement()
