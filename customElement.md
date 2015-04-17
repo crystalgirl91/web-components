@@ -76,11 +76,13 @@
 * detachedCallback:自定义元素的实例移除文档时调用
 * attributeChangedCallback:自定义元素的实例属性发生变化时调用（添加，移除，修改）
 
-  function(propertyName,oldValue,newValue){}
+attributeChangedCallback具有三个参数：
+
+    function(propertyName, oldValue, newValue){}
+    属性添加时oldValue为null
+    属性删除时newValue为null
   
-  属性添加时oldValue为null
-  属性删除时newValue为null
-  
+-----------------------------
 ###DOM
 
         <div id="modify">
