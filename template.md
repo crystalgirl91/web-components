@@ -1,30 +1,34 @@
+#template
+
 template标签用来定义网页中某些重复出现的部分的代码模板。它存在于DOM之中，默认浏览器是不会渲染此标签的内容的,只有当你真正用的时候才会去render。 
 
 下面是一个模板的例子：
+
     <template id="template">
       <div class="profile">
-        <img src="" class="profileImg">
+        <img class="profileImg">
         <div class="profile_name"></div>
       </div>
     </template>
-  使用这个模板的时候，需要用javascript获取并操作template的内容然后插入DOM文档中。
+    
+使用这个模板的时候，需要用javascript获取并操作template的内容然后插入DOM文档中。
   
-      var temp = document.querySelector("#template");
-      temp.querySelector(".profileImg").src="profile.jpg";
-      temp.querySelector(".profile_name").innerHTML = "profile_name";
-      document.body.appendChild(temp.content);
+    var temp = document.querySelector("#template");
+    temp.querySelector(".profileImg").src="profile.jpg";
+    temp.querySelector(".profile_name").innerHTML = "profile_name";
+    document.body.appendChild(temp.content);
   
-  上面的例子，直接将template.content插入DOM中，这样在一次插入操作后template的content就会丢失，这个模板就不可再重用
-  .更好的做法是克隆模板节点，然后将克隆的副本插入DOM，这样就可以重用模板。如下：
+上面的例子，直接将template.content插入DOM中，这样在一次插入操作后template的content就会丢失，这个模板就不可再重用。
+更好的做法是克隆模板节点，然后将克隆的副本插入DOM，这样就可以重用模板。如下：
   
-      var temp = document.querySelector("#template");
-      temp.querySelector(".profileImg").src="profile.jpg";
-      temp.querySelector(".profile_name").innerHTML = "profile_name";
-           document.body.appendChild(document.importNode(temp.content,true));
-      或者:document.body.appendChild(temp.content.cloneNode(true));
+    var temp = document.querySelector("#template");
+    temp.querySelector(".profileImg").src="profile.jpg";
+    temp.querySelector(".profile_name").innerHTML = "profile_name";
+       document.body.appendChild(document.importNode(temp.content,true));
+    或者:document.body.appendChild(temp.content.cloneNode(true));
       
-  这里的importNode方法用于克隆外部文档的DOM节点，document.importNode方法接受两个参数，第一个参数是外部文档DOM节点，
-  第二个参数是布尔值，表示是否克隆该节点的子节点，默认为FALSE，即不克隆子节点。cloneNode方法与importNode方法等效。
+这里的importNode方法用于克隆外部文档的DOM节点，document.importNode方法接受两个参数，第一个参数是外部文档DOM节点，
+第二个参数是布尔值，表示是否克隆该节点的子节点，默认为FALSE，即不克隆子节点。cloneNode方法与importNode方法等效。
   
 上面的代码就是往body里插入模板里的内容,这里要注意下,想要获取模板内的内容,得使用模板元素的content属性,内容的类型是documentFragment，一般在同时插入多个html内容的时候，用documentFragment是最有效率的, 这里还要注意下，假如直接把content的内容直接插入到目标元素内之后，模板的内容就会丢失，所以为了保证别的目标元素也想插入这个模板的话，可以使用Node的cloneNode方法，这是所有html节点都有的方法,参数传递true的话会深度clone.
 
