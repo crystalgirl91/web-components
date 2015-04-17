@@ -9,39 +9,51 @@
     
 实际上 document.registerElement(tag-name, prototype) 包含两个参数：
 
-1. tag-name: 自定义元素的标签名，这个标签名必须包含连字符’-’，这样做的母的是用以区分自定义元素和HTML规范的元素
-2. prototype: 这是一个可选的参数，用于描述该元素的原型，在该元素中你可以为自定义元素进行接口的定义
+*  tag-name: 自定义元素的标签名，这个标签名必须包含连字符’-’，这样做的母的是用以区分自定义元素和HTML规范的元素。
 
-      var MyElement = document.registerElement('my-element', { 
-          prototype: Object.create(HTMLElement.prototype, { 
-              createdCallback: { 
-                  value: function() { 
-                      this.innerHTML = "<p>I'm a Custom Element</p>"
-                  } 
+*  prototype: 这是一个可选的参数，用于描述该元素的原型，在该元素中你可以为自定义元素进行接口的定义。
+
+-----------------------------
+
+    var MyElement = document.registerElement('my-element', { 
+      prototype: Object.create(HTMLElement.prototype, { 
+          createdCallback: { 
+              value: function() { 
+                  this.innerHTML = "<p>I'm a Custom Element</p>"
               } 
-          }) 
-      });
-      document.body.appendChild(new MyElement())
+          } 
+      }) 
+    });
+    document.body.appendChild(new MyElement())
+    
+-----------------------------
       
 在上面的例子中，我们通过Object.create()方法创建了一个继承自HTMLElement的对象作为自定义对象的原型，
 并设置了元素默认的 innerHTML ，如果你对Object.create()方法的第二个参数不熟悉，你最好先去查阅一下。
 实际上它的上面的例子跟下面给出的写法的效果是一样的：
 
-      var MyElementProto = Object.create(HTMLElement.prototype)
+-----------------------------
 
+      var MyElementProto = Object.create(HTMLElement.prototype)
+      
       MyElementProto.createdCallback = function() {
           this.innerHTML = "<p>I'm a Custom Element</p>"
       }
       
       var MyElement = document.registerElement('my-element', { prototype: MyElementProto })
-
+      
       document.body.appendChild(new MyElement())
       
+-----------------------------
+      
 接着，在页面上我们可以看到渲染出如下结构：
+
+-----------------------------
 
       <my-element>
           <p>I'm a Custom Element</p>
       </my-element>
+-----------------------------
 
 ##自定义元素的生命周
 
@@ -63,17 +75,19 @@
 * attachedCallback:自定义元素的实例插入文档时调用
 * detachedCallback:自定义元素的实例移除文档时调用
 * attributeChangedCallback:自定义元素的实例属性发生变化时调用（添加，移除，修改）
+
   function(propertyName,oldValue,newValue){}
+  
   属性添加时oldValue为null
   属性删除时newValue为null
   
 ###DOM
 
-      <div id="modify">
-        <label class="CEgreen"><input type="radio" name="CEclass" value="green">green box</label>
-        <label class="CEred"><input type="radio" name="CEclass" value="red">red box</label>
-      </div>
-      
+        <div id="modify">
+            <label class="CEgreen"><input type="radio" name="CEclass" value="green">green box</label>
+            <label class="CEred"><input type="radio" name="CEclass" value="red">red box</label>
+        </div>
+        
 ###JS
 
       var MyElement = document.registerElement('my-element', { 
